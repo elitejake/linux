@@ -37,6 +37,18 @@ struct memory_node {
 	unsigned long	*set;
 };
 
+struct hybrid_node {
+	char	*pmu_name;
+	char	*cpus;
+};
+
+struct hybrid_cpc_node {
+	int		nr_cpu_pmu_caps;
+	unsigned int    max_branches;
+	char            *cpu_pmu_caps;
+	char            *pmu_name;
+};
+
 struct perf_env {
 	char			*hostname;
 	char			*os_release;
@@ -49,6 +61,7 @@ struct perf_env {
 	unsigned long long	total_mem;
 	unsigned int		msr_pmu_type;
 	unsigned int		max_branches;
+	int			kernel_is_64_bit;
 
 	int			nr_cmdline;
 	int			nr_sibling_cores;
@@ -59,6 +72,8 @@ struct perf_env {
 	int			nr_pmu_mappings;
 	int			nr_groups;
 	int			nr_cpu_pmu_caps;
+	int			nr_hybrid_nodes;
+	int			nr_hybrid_cpc_nodes;
 	char			*cmdline;
 	const char		**cmdline_argv;
 	char			*sibling_cores;
@@ -77,6 +92,8 @@ struct perf_env {
 	struct numa_node	*numa_nodes;
 	struct memory_node	*memory_nodes;
 	unsigned long long	 memory_bsize;
+	struct hybrid_node	*hybrid_nodes;
+	struct hybrid_cpc_node	*hybrid_cpc_nodes;
 #ifdef HAVE_LIBBPF_SUPPORT
 	/*
 	 * bpf_info_lock protects bpf rbtrees. This is needed because the
@@ -126,6 +143,8 @@ struct btf_node;
 extern struct perf_env perf_env;
 
 void perf_env__exit(struct perf_env *env);
+
+int perf_env__kernel_is_64_bit(struct perf_env *env);
 
 int perf_env__set_cmdline(struct perf_env *env, int argc, const char *argv[]);
 
