@@ -4,6 +4,7 @@
 
 #include <linux/types.h>
 #include <linux/rbtree.h>
+#include "cpumap.h"
 #include "rwsem.h"
 
 struct perf_cpu_map;
@@ -149,11 +150,16 @@ int perf_env__kernel_is_64_bit(struct perf_env *env);
 int perf_env__set_cmdline(struct perf_env *env, int argc, const char *argv[]);
 
 int perf_env__read_cpuid(struct perf_env *env);
+int perf_env__read_pmu_mappings(struct perf_env *env);
+int perf_env__nr_pmu_mappings(struct perf_env *env);
+const char *perf_env__pmu_mappings(struct perf_env *env);
+
 int perf_env__read_cpu_topology_map(struct perf_env *env);
 
 void cpu_cache_level__free(struct cpu_cache_level *cache);
 
 const char *perf_env__arch(struct perf_env *env);
+const char *perf_env__cpuid(struct perf_env *env);
 const char *perf_env__raw_arch(struct perf_env *env);
 int perf_env__nr_cpus_avail(struct perf_env *env);
 
@@ -162,8 +168,8 @@ void perf_env__insert_bpf_prog_info(struct perf_env *env,
 				    struct bpf_prog_info_node *info_node);
 struct bpf_prog_info_node *perf_env__find_bpf_prog_info(struct perf_env *env,
 							__u32 prog_id);
-void perf_env__insert_btf(struct perf_env *env, struct btf_node *btf_node);
+bool perf_env__insert_btf(struct perf_env *env, struct btf_node *btf_node);
 struct btf_node *perf_env__find_btf(struct perf_env *env, __u32 btf_id);
 
-int perf_env__numa_node(struct perf_env *env, int cpu);
+int perf_env__numa_node(struct perf_env *env, struct perf_cpu cpu);
 #endif /* __PERF_ENV_H */

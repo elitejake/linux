@@ -6,6 +6,8 @@
 # Rewritten to use lists instead of if-statements.
 # 
 
+obj-$(CONFIG_SYSCTL)		+= sysctls.o
+
 obj-y :=	open.o read_write.o file_table.o super.o \
 		char_dev.o stat.o exec.o pipe.o namei.o fcntl.o \
 		ioctl.o readdir.o select.o dcache.o inode.o \
@@ -96,7 +98,7 @@ obj-$(CONFIG_LOCKD)		+= lockd/
 obj-$(CONFIG_NLS)		+= nls/
 obj-$(CONFIG_UNICODE)		+= unicode/
 obj-$(CONFIG_SYSV_FS)		+= sysv/
-obj-$(CONFIG_CIFS_COMMON)	+= cifs_common/
+obj-$(CONFIG_SMBFS_COMMON)	+= smbfs_common/
 obj-$(CONFIG_CIFS)		+= cifs/
 obj-$(CONFIG_SMB_SERVER)	+= ksmbd/
 obj-$(CONFIG_HPFS_FS)		+= hpfs/
